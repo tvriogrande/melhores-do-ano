@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <script>
+        (function(d, w, c) {
+            w.ChatraID = 'vJYZix8oRbYqm5Mwm';
+            var s = d.createElement('script');
+            w[c] = w[c] || function() {
+                (w[c].q = w[c].q || []).push(arguments);
+            };
+            s.async = true;
+            s.src = 'https://call.chatra.io/chatra.js';
+            if (d.head) d.head.appendChild(s);
+        })(document, window, 'Chatra');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212; /* Fundo escuro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            color: #ffffff; /* Texto branco */
+        }
+    
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1); /* Leve fundo transparente */
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6); /* Sombra mais intensa */
+            text-align: center;
+        }
+    
+        h1, h3, h4 {
+            color: #b0c4de; /* Azul claro suave */
+        }
+    
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6); /* Efeito de sombra */
+        }
+    
+        h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+    
+        h4 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+    
+        .category {
+            display: none;
+        }
+    
+        .category.active {
+            display: block;
+        }
+    
+        label {
+            display: block;
+            background: rgba(255, 255, 255, 0.2); /* Fundo levemente transparente */
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            color: #ffffff; /* Texto branco */
+            font-size: 1.2rem;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4); /* Sombra suave */
+        }
+    
+        label:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5); /* Efeito de hover com sombra mais intensa */
+        }
+    
+        .submit-btn, .back-btn {
+            background: linear-gradient(135deg, #2f2f2f, #444444); /* Fundo escuro e elegante */
+            color: #ffffff; /* Texto branco */
+            font-size: 1.2rem;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* Sombra nos botões */
+        }
+    
+        .submit-btn:hover, .back-btn:hover {
+            background: linear-gradient(135deg, #555555, #666666); /* Fundo mais escuro */
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7); /* Efeito de hover com sombra mais forte */
+        }
+    
+        .inactive-message {
+            display: none;
+            color: #ffffff; /* Texto branco */
+            background-color: #b22222; /* Vermelho escuro */
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Sombra leve */
+        }
+    
+        /* Filtro de categorias */
+        .category-filter {
+            margin: 20px 0;
+        }
+    
+        .category-filter select {
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            width: 100%;
+            background-color: #2f2f2f; /* Fundo escuro */
+            color: #fff; /* Texto branco */
+        }
+    
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            h3 {
+                font-size: 1.8rem;
+            }
+            .submit-btn, .back-btn {
+                font-size: 1rem;
+            }
+        }
+    </style>
+    
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Vote Para Melhores do Ano com a TV RIO GRANDE!</h1>
+
+        <div id="inactive-message" class="inactive-message">
+            Clique no botão de chat abaixo em azul, para solicitar sua empresa/outros
+        </div>
+        
+        <div class="category-filter">
+            <label for="category-select">Selecione uma Categoria:</label>
+            <select id="category-select" onchange="filterCategories()">
+                <option value="all">Todas</option>
+                <option value="1">Alimentação e Bebidas</option>
+                <option value="2">Comércio e Varejo</option>
+                <option value="3">Melhor Variedade de Produtos</option>
+                <option value="4">Melhor Preço</option>
+                <option value="5">Melhor Promoção</option>
+                <option value="6">Açaiteria</option>
+                <option value="7">Melhor Sorveteria</option>
+                <option value="8">Loja de Eletrônicos</option>
+                <option value="9">Alongamento de Unha</option>
+                <option value="10">Saúde e Bem-Estar</option>
+                <option value="11">Academia</option>
+                <option value="12">Educação e Cultura</option>
+                <option value="13">Melhor Verador Atuante</option>
+                <option value="14">Melhor Lava Jato</option>
+                <option value="15">Melhor Associação</option>
+                <option value="16">Material Eletrônico</option>
+                <option value="17">Materiais de Construção</option>
+                <option value="18">Roupa StreetWear</option>
+                <option value="19">Moda</option>
+                <option value="20">Moda Infantil</option>
+                <option value="21">Imprensa</option>
+                <option value="22">Petshop</option>
+                <option value="23">Odontologia</option>
+                <option value="24">Serviços de Festas</option>
+                <option value="25">Salgadaria</option>
+                <option value="26">Turismo e Lazer</option>
+            </select>
+        </div>
+
+        <form id="voting-form">
+            <!-- Categoria 1: Alimentação e Bebidas -->
+            <div class="category" id="category1">
+                <h3>Alimentação e Bebidas</h3>
+                <h4>Melhor Restaurante</h4>
+                <label><input type="radio" name="restaurante" value="Restaurante Zé Tucunaré"> Restaurante Zé Tucunaré</label>
+                <label><input type="radio" name="restaurante" value="Restaurante Fronteira"> Restaurante Fronteira</label>
+                <label><input type="radio" name="restaurante" value="P & M Restaurante e Choperia Ltda"> P & M Restaurante e Choperia Ltda</label>
+                
+                <h4>Melhor Pizzaria</h4>
+                <label><input type="radio" name="pizzaria" value="Dom Pedro Pizzaria"> Dom Pedro Pizzaria</label>
+                <label><input type="radio" name="pizzaria" value="Pizza Mania"> Pizza Mania</label>
+                <label><input type="radio" name="pizzaria" value="Dona Prado Pizzaria"> Dona Prado Pizzaria</label>
+                <label><input type="radio" name="pizzaria" value="Capitão Bar"> Capitão Bar</label>
+                
+                <h4>Melhor Lanche</h4>
+                <label><input type="radio" name="lanche" value="Restaurante e Lanchonete Sabor de Minas"> Restaurante e Lanchonete Sabor de Minas</label>
+                <label><input type="radio" name="lanche" value="Restaurante e Lanchonete Sabor do Céu"> Restaurante e Lanchonete Sabor do Céu</label>
+                <label><input type="radio" name="lanche" value="Sabor de Casa"> Sabor de Casa</label>
+                <label><input type="radio" name ="lanche" value="Casa da Empada"> Casa da Empada</label>
+                <label><input type="radio" name="lanche" value="MR Batata"> MR Batata</label>
+                
+                <button type="button" class="submit-btn" onclick="nextCategory(1)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(1)">Voltar</button>
+            </div>
+        
+            <!-- Categoria 2: Comércio e Varejo -->
+            <div class="category" id="category2">
+                <h3>Comércio e Varejo</h3>
+                
+                <h4>Melhor Supermercado</h4>
+                <label><input type="radio" name="supermercado" value="Neves Supermercados"> Neves Supermercados</label>
+                <label><input type="radio" name="supermercado" value="Micodengo"> Micodengo</label>
+                <label><input type="radio" name="supermercado" value="Nakar"> Nakar</label>
+                <label><input type="radio" name="supermercado" value="Marimbondo"> Marimbondo</label>
+                <label><input type="radio" name="supermercado" value ="Amparado"> Amparado</label>
+                <label><input type="radio" name="supermercado" value="Supermercado JM"> Supermercado JM</label>
+                <label><input type="radio" name="supermercado" value="Mini mercado Tony"> Mini mercado Tony</label>
+                <label><input type="radio" name="supermercado" value="Paraiba"> Paraiba</label>
+                <label><input type="radio" name="supermercado" value="Supermercado JB"> Supermercado JB</label>
+        
+                <button type="button" class="submit-btn" onclick="nextCategory(2)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(2)">Voltar</button>
+            </div>
+        
+            <!-- Categoria 3: Melhor Variedade de Produtos -->
+            <div class="category" id="category3">
+                <h3>Melhor Variedade de Produtos</h3>
+                <label><input type="radio" name="variedade_produtos" value="Neves Supermercados"> Neves Supermercados</label>
+                <label><input type="radio" name="variedade_produtos" value="Micodengo"> Micodengo</label>
+                <label><input type="radio" name="variedade_produtos" value="Nakar"> Nakar</label>
+                <label><input type="radio" name="variedade_produtos" value="Supermercado JM"> Supermercado JM</label>
+                <label><input type="radio" name="variedade_produtos" value="Supermercado JB"> Supermercado JB</label>
+        
+                <button type="button" class="submit-btn" onclick="nextCategory(3)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(3)">Voltar</button>
+            </div>
+        
+            <!-- Categoria 4: Melhor Preço -->
+            <div class="category" id="category4">
+                <h3>Melhor Preço</h3>
+                <label><input type="radio" name="melhor_preco" value="Neves Supermercados"> Neves Supermercados</label>
+                <label><input type="radio" name="melhor_preco" value="Micodengo"> Micodengo</label>
+                <label><input type="radio" name="melhor_preco" value="Supermercado JB"> Supermercado JB</label>
+                <label><input type="radio" name="melhor_preco" value="Paraiba"> Supermercado Paraíba</label>
+        
+                <button type="button" class="submit-btn" onclick="nextCategory(4)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(4)">Voltar</button>
+            </div>
+        
+            <!-- Categoria 5: Melhor Promoção -->
+            <div class="category" id="category5">
+                <h3>Melhor Promoção</h3>
+                <label><input type="radio" name="melhor_promocao" value="Neves Supermercados"> Neves Supermercados</label>
+                <label><input type="radio" name="melhor_promocao" value="Micodengo"> Micodengo</label>
+                <label><input type="radio" name="melhor_promocao" value="Supermercado JB"> Supermercado JB</label>
+                <label><input type="radio" name="melhor_promocao" value="Supermercado Paraíba"> Supermercado Paraíba</label>
+        
+                <button type="button" class="submit-btn" onclick="nextCategory(5)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(5)">Voltar</button>
+            </div>
+        
+            <!-- Categoria 6: Açaiteria -->
+            <div class="category" id="category6">
+                <h3>Açaiteria</h3>
+                <label><input type="radio" name="acaiteria" value="Açai no grau"> Açai no grau</label>
+                <label><input type="radio" name="acaiteria" value="Casa Do Açai"> Casa Do Açai</label>
+                <label><input type="radio" name="acaiteria" value="Império Sorveteria"> Império Sorveteria</label>
+                <label><input type="radio" name="acaiteria" value="Refugio do açai"> Refugio do aç ai</label>
+                <label><input type="radio" name="acaiteria" value="Sorveteria Sorvetão e Lanhouse"> Sorveteria Sorvetão e Lanhouse</label>
+                <label><input type="radio" name="acaiteria" value="Açaí Mania"> Açaí Mania</label>
+                <label><input type="radio" name="acaiteria" value="Lanchonete e Sorveteria Peju"> Lanchonete e Sorveteria Peju</label>
+                <label><input type="radio" name="acaiteria" value="Sorveteria Cremoso"> Sorveteria Cremoso</label>
+                <label><input type="radio" name="acaiteria" value="Sorveteria Victoria"> Sorveteria Victoria</label>
+                <label><input type="radio" name="acaiteria" value="Mega Açai"> Mega Açai</label>
+                
+                <button type="button" class="submit-btn" onclick="nextCategory(6)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(6)">Voltar</button>
+            </div>
+
+            <!-- Categoria 7: Melhor Sorveteria -->
+            <div class="category" id="category7">
+                <h3>Melhor Sorveteria</h3>
+                <label><input type="radio" name="sorveteria" value="Sorveteria Sorvetão e Lanhouse"> Sorveteria Sorvetão e Lanhouse</label>
+                <label><input type="radio" name="sorveteria" value="Açaí Mania"> Açaí Mania</label>
+                <label><input type="radio" name="sorveteria" value="Lanchonete e Sorveteria Peju"> Lanchonete e Sorveteria Peju</label>
+                <label><input type="radio" name="sorveteria" value="Sorveteria Cremoso"> Sorveteria Cremoso</label>
+                <label><input type="radio" name="sorveteria" value="Império Sorveteria"> Império Sorveteria</label>
+                <label><input type="radio" name="sorveteria" value="Açai no grau"> Açai no grau</label>
+                <label><input type="radio" name="sorveteria" value="Casa Do Açai"> Casa Do Açai</label>
+                <label><input type="radio" name="sorveteria" value="Refugio do açai"> Refugio do açai</label>
+                <label><input type="radio" name="sorveteria" value="Sorveteria Victoria"> Sorveteria Victoria</label>
+                <label><input type="radio" name="sorveteria" value="Mega Açai"> Mega Açai</label>
+                
+                <button type="button" class="submit-btn" onclick="nextCategory(7)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(7)">Voltar</button>
+            </div>
+
+            <!-- Categoria 8: Loja de Eletrônicos -->
+            <div class="category" id="category8">
+                <h3>Loja de Eletrônicos</h3>
+                <label><input type="radio" name="assistencia_tecnica" value="Center Cell"> Center Cell</label>
+                <label><input type="radio" name="assistencia_tecnica" value="All Center"> All Center</label>
+                <label><input type="radio" name="assistencia_tecnica" value="GRMS SMART"> GRMS SMART</label>
+                <label><input type="radio" name="assistencia_tecnica" value="Extreme Cell"> Extreme Cell</label>
+                <label><input type="radio" name="assistencia_tecnica" value="Nippontech"> Nippontech</label>
+                <label><input type="radio" name="assistencia_tecnica" value="AnaBru Center"> AnaBru Center</label>
+                <label><input type="radio" name="assistencia_tecnica" value="RB CELL"> RB CELL</label>
+                
+                <button type="button" class="submit-btn" onclick="nextCategory(8)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(8)">Voltar</button>
+            </div>
+
+         <!-- Categoria 9: Alongamento de Unha -->
+<div class="category" id="category9">
+    <h3>Alongamento de Unha</h3>
+    <label><input type="radio" name="unha" value="Alongamento da Ana"> Alongamento da Ana</label>
+    <label><input type="radio" name="unha" value="Alongamento Naty"> Alongamento Naty</label>
+    <label><input type="radio" name="unha" value="Unhas da Mary"> Unhas da Mary</label>
+    <label><input type="radio" name="unha" value="marcela.naildesigner"> marcela.naildesigner</label>
+    <label><input type="radio" name="unha" value="geizyoliveira"> geizyoliveira</label>
+    <label><input type="radio" name="unha" value="alexandraolivernails"> alexandraolivernails</label>
+    <label><input type="radio" name="unha" value="alinecosta_nailsdesigner"> alinecosta_nailsdesigner</label>
+    
+    <button type="button" class="submit-btn" onclick="nextCategory(9)">Próxima Categoria</button>
+    <button type="button" class="back-btn" onclick="previousCategory(9)">Voltar</button>
+</div>
+
+            <!-- Categoria 10: Saúde e Bem-Estar -->
+            <div class="category" id="category10">
+                <h3>Melhor Fármacia</h3>
+                <label><input type="radio" name="farmacia" value="Farmácia Santa Clara"> Drogaria da Saúde</label>
+                <label><input type="radio" name="farmacia" value="Farmácia São João"> MedFarma Fronteira</label>
+                <label><input type="radio" name="farmacia" value="Clínica Vida Saudável"> Bfarma</label>
+                <label><input type="radio" name="farmacia" value="Clínica do Sorriso"> Drogaria Poli + Farma</label>
+                <label><input type="radio" name="farmacia" value="Pilates & Cia"> Drogaria Rede Inova</label>
+                <label><input type="radio" name="farmacia" value="Academia Flex"> Drogamelo</label>
+                
+                <button type="button" class="submit-btn" onclick="nextCategory(10)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(10)">Voltar</button>
+            </div>
+
+            <!-- Categoria 11: Academia -->
+            <div class="category" id="category11">
+                <h3>Melhor Academia</h3>
+                <label><input type="radio" name="oficina" value="Oficina Mecânica Max"> Planet Academia</label>
+                <label><input type="radio" name="oficina" value="Lava Jato Rápido"> Academia Espaço Fitness</label>
+                <label><input type="radio" name="oficina" value="Pet Shop do Bairro"> Fisio e Forma</label>
+                
+                <button type="button" class="submit-btn" onclick="nextCategory(11)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(11)">Voltar</button>
+            </div>
+
+            <!-- Categoria 12: Educação e Cultura -->
+            <div class="category" id="category12">
+                <h3>Educação e Cultura</h3>
+                <label><input type="radio" name="escola" value="Colégio Destaque/Objetivo"> Colégio Destaque/Objetivo</label>
+                <label><input type="radio" name="escola" value="Colégio Conquista / POLO UNIUBE"> Colégio Conquista / POLO UNIUBE</label>
+                
+                <button type="button" class="submit-btn" onclick="nextCategory(12)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(12)">Voltar</button>
+            </div>
+
+            <!-- Categoria 13: Melhor Verador Atuante -->
+            <div class="category" id="category13">
+                <h3>Melhor Verador Atuante</h3>
+                <label><input type="radio" name="verador" value="Angelita"> Angelita</label>
+                <label><input type="radio" name="verador" value="Serginho"> Serginho</label>
+                <label><input type="radio" name="verador" value="Osmar "> Osmar</label>
+                <label><input type="radio" name="verador" value="Zé Neto"> Zé Neto</label>
+                <label><input type="radio" name="verador" value="Moises"> Moises</label>
+                <label><input type="radio" name="verador" value="Ricardo"> Ricardo</label>
+                <label><input type="radio" name="verador" value="Zenildo"> Zenildo</label>
+                <label><input type="radio" name="verador" value="Mona"> Mona</label>
+                <button type="button" class="submit-btn" onclick="nextCategory(13)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(13)">Voltar</button>
+            </div>
+
+            <!-- Categoria 14: Melhor Lava Jato -->
+            <div class="category" id="category14">
+                <h3>Melhor Lava Jato</h3>
+                <label><input type="radio" name="lava_jato" value="Paiva Lava Jato"> Paiva Lava Jato</label>
+                <label><input type="radio" name="lava_jato" value="Lava Jato Skinao"> Lava Jato Skinao</label>
+                <label><input type="radio" name="lava_jato" value="Lava Jato Tilanga"> Lava Jato Tilanga</label>
+                <label><input type="radio" name="lava_jato" value="Black Bald Steticar"> Black Bald Steticar</label>
+                <label><input type="radio" name="lava_jato" value="Prime Estética Automotiva"> Prime Estética Automotiva</label>
+                <button type="button" class="submit-btn" onclick="nextCategory(14)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(14)">Voltar</button>
+            </div>
+
+            <!-- Categoria 15: Melhor Associação -->
+            <div class="category" id="category15">
+                <h3>Melhor Associação</h3>
+                <label><input type="radio" name="associacao" value="Coração Solidário"> Coração Solidário</label>
+                <label><input type="radio" name="associacao" value="Associação Comercial e Industrial"> Associação Comercial e Industrial</label>
+                <label><input type="radio" name="associacao" value="Sede náutica Recreativa do Marimbondo"> Sede náutica Recreativa do Marimbondo</label>
+                <label><input type="radio" name="associacao" value="ACIFRON"> ACIFRON</label>
+                <label><input type="radio" name="associacao" value="Rotary Club"> Rotary Club</label>
+                <button type="button" class="submit-btn" onclick="nextCategory(15)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(15)">Voltar</button>
+            </div>
+
+            <div class="category" id="category16">
+                <h3>Material Eletrônico</h3>
+                <label><input type="radio" name="material_eletronico" value="Top Eletrica"> Top Eletrica</label>
+                <label><input type="radio" name="material_eletronico" value="Rumo de Casa"> Rumo de Casa</label>
+                <label><input type="radio" name="material_eletronico" value="Nippontech"> Nippontech</label>
+                <label><input type="radio" name="material_eletronico" value="Evandro"> Evandro</label>
+                <button type="button" class="submit-btn" onclick="nextCategory(16)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(16)">Voltar</button>
+            </div>
+
+            <div class="category" id="category17">
+                <h3>Materiais de Construção</h3>
+                <label><input type="radio" name="materiais_construcao" value="ConstruSilva"> ConstruSilva</label>
+                <label><input type="radio" name="materiais_construcao" value="HL Materiais de Construção"> HL Materiais de Construção</label>
+                <label><input type="radio" name="materiais_construcao" value="Depósito Fronteira"> Depósito Fronteira</label>
+                <label><input type="radio" name="materiais ```html
+_construcao" value="Minas Materiais de Construção"> Minas Materiais de Construção</label>
+                <label><input type="radio" name="materiais_construcao" value="Rumo de Casa"> Rumo de Casa</label>
+                <label><input type="radio" name="materiais_construcao" value="ConstruPaiva"> ConstruPaiva</label>
+                <label><input type="radio" name="materiais_construcao" value="Nippontech"> Nippontech</label>
+                <label><input type="radio" name="materiais_construcao" value="M.V Engenharia e Arquitetura"> M.V Engenharia e Arquitetura</label>
+                <button type="button" class="submit-btn" onclick="nextCategory(17)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(17)">Voltar</button>
+            </div>
+
+            <div class="category" id="category18">
+                <h3>Roupa StreetWear</h3>
+                <label><input type="radio" name="roupa_streetwear" value="Plebeia & Plebeu"> Plebeia & Plebeu</label>
+                <label><input type="radio" name="roupa_streetwear" value="Bolder Street"> Bolder Street</label>
+                <button type="button" class="submit-btn" onclick="nextCategory(18)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(18)">Voltar</button>
+            </div>
+
+            <div class="category" id="category19">
+                <h3>Moda</h3>
+                <label><input type="radio" name="moda" value="Plebeia & Plebeu"> Plebeia & Plebeu</label>
+                <label><input type="radio" name="moda" value="Bolder Street"> Bolder Street</label>
+                <label><input type="radio" name="moda" value="Extravagance Modas By Cléo"> Extravagance Modas By Cléo</label>
+                <label><input type="radio" name="moda" value="Naty Modas"> Naty Modas</label>
+                <label><input type="radio" name="moda" value="Pretinha MODAS"> Pretinha MODAS</label>
+                <label><input type="radio" name="moda" value="RL MODAS"> RL MODAS</label>
+                <label><input type="radio" name="moda" value="Marina Modas"> Marina Modas</label>
+                <label><input type="radio" name="moda" value="Jacky Barbosa Boutique"> Jacky Barbosa Boutique</label>
+                <label><input type="radio" name="moda" value="Ferracini Modas"> Ferracini Modas</label>
+                <label><input type="radio" name="moda" value="Maria Sem Limites"> Maria Sem Limites</label>
+                <label><input type="radio" name="moda" value="Mari Bella"> Mari Bella</label>
+                <label><input type="radio" name="moda" value="Theury Carvalho"> Theury Carvalho</label>
+                <label><input type="radio" name="moda" value="Marisa Store"> Marisa Store</label>
+                <label><input type="radio" name="moda" value="MA Store Country"> MA Store Country</label>
+                <label><input type="radio" name="moda" value="Universe For Men"> Universe For Men</label>
+                <label><input type="radio" name="moda" value="Amorelas"> Amorelas</label>
+                <label><input type="radio" name="moda" value="Top10 Brasil"> Top10 Brasil</label>
+                <button type="button" class="submit-btn" onclick="nextCategory(19)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(19)">Voltar</button>
+            </div>
+
+            <div class="category" id="category20">
+                <h3>Moda Infantil</h3>
+                <label><input type="radio" name="moda_infantil" value="Mundo Kids"> Mundo Kids</label>
+                <label><input type="radio" name="moda_infantil" value="Estripulia"> Estripulia</label>
+                <button type="button" class="submit-btn" onclick="nextCategory(20)">Pró xima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(20)">Voltar</button>
+            </div>
+
+            <div class="category" id="category21">
+                <h3>Imprensa</h3>
+                <label><input type="radio" name="imprensa" value="TV Rio Grande"> TV Rio Grande</label>
+                <label><input type="radio" name="imprensa" value="Rádio Clube FM"> Rádio Clube FM</label>
+                <label><input type="radio" name="imprensa" value="Rádio Beira Rio FM"> Rádio Beira Rio FM</label>
+                <label><input type="radio" name="imprensa" value="Jornal O Noticiário"> Jornal O Noticiário</label>
+                <button type="button" class="submit-btn" onclick="nextCategory(21)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(21)">Voltar</button>
+            </div>
+
+            <div class="category" id="category22">
+                <h3>Petshop</h3>
+                <label><input type="radio" name="petshop" value="Vivi Pet Shop"> Vivi Pet Shop</label>
+                <label><input type="radio" name="petshop" value="Nath Pet"> Nath Pet</label>
+                <label><input type="radio" name="petshop" value="Cãobeleireira"> Cãobeleireira</label>
+                <button type="button" class="submit-btn" onclick="nextCategory(22)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(22)">Voltar</button>
+            </div>
+
+            <div class="category" id="category23">
+                <h3>Odontologia</h3>
+                <label><input type="radio" name="odontologia" value="JRB Odontologia"> JRB Odontologia</label>
+                <label><input type="radio" name="odontologia" value="OdontoCompany"> OdontoCompany</label>
+                <label><input type="radio" name="odontologia" value="Dra. Elen Bazaglia"> Dra. Elen Bazaglia</label>
+                <button type="button" class="submit-btn" onclick="nextCategory(23)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(23)">Voltar</button>
+            </div>
+
+            <div class="category" id="category24">
+                <h3>Serviços de Festas</h3>
+                <label><input type="radio" name="servicos_festas" value="Nunes Distribuidora"> Nunes Distribuidora</label>
+                <label><input type="radio" name="servicos_festas" value="Serv Festas Laranjeira"> Serv Festas Laranjeira</label>
+                <label><input type="radio" name="servicos_festas" value="Cabana Mineira"> Cabana Mineira</label>
+                <label><input type="radio" name="servicos_festas" value="Serv Festas Agudos"> Serv Festas Agudos</label>
+                <button type="button" class="submit-btn" onclick="nextCategory(24)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(24)">Voltar</button>
+            </div>
+
+            <div class="category" id="category25">
+                <h3>Salgadaria</h3>
+                <label><input type="radio" name="salgadaria" value="Nunes Esfirra"> Nunes Esfirra</label>
+                <label><input type="radio" name="salgadaria" value="Ariane Salgados"> Ariane Salgados</label>
+                <label><input type="radio" name="salgadaria" value="Trem Baum Salgadaria"> Trem Baum Salgadaria</label>
+                <button type="button" class="submit-btn" onclick="nextCategory(25)">Próxima Categoria</button>
+                <button type="button" class="back-btn" onclick="previousCategory(25)">Voltar</button>
+            </div>
+
+            <!-- Categoria 26: Turismo e Lazer -->
+            <div class="category" id="category26">
+                <h3>Turismo e Lazer</h3>
+                <label><input type="radio" name="lazer" value="Parque Aquático Náutico Clube "> Parque Aquático Náutico Clube</label>
+                <label><input type="radio" name="lazer" value="Barra do Monjolo"> Barra do Monjolo</label>
+                <button type="button" class="submit-btn" onclick="submitVoting()">Enviar Votação</button>
+                <button type="button" class="back-btn" onclick="previousCategory(26)">Voltar</button>
+            </div>
+        </form>
+
+        <div class="submit-section">
+            <div id="request-form">
+                <h3>Solicite uma empresa/outros:</h3>
+                <input type="text" id="company-name" class="input-field" placeholder="Nome da Empresa">
+                <input type="text" id="category" class="input-field" placeholder="Categoria">
+                <button type="button" class="submit-btn" onclick="submitRequest()">Enviar</button>
+            </div>
+        </div>
+
+        <script>
+            let currentCategory = 1;
+            const totalCategories = 26;
+
+            function nextCategory(category) {
+                const current = document.getElementById(`category${category}`);
+                const next = document.getElementById(`category${category + 1}`);
+                if (current && current.querySelector('input[type="radio"]:checked')) {
+                    current.classList.remove('active');
+                    if (next) {
+                        next.classList.add('active');
+                    } else {
+                        alert('Você completou todas as categorias!');
+                    }
+                } else {
+                    alert('Por favor, selecione uma opção antes de continuar.');
+                }
+            }
+
+            function previousCategory(category) {
+                const current = document.getElementById(`category${category}`);
+                const previous = document.getElementById(`category${category - 1}`);
+                if (previous) {
+                    current.classList.remove('active');
+                    previous.classList.add('active');
+                }
+            }
+
+            function filterCategories() {
+                const selectedValue = document.getElementById('category-select').value;
+                const categories = document.querySelectorAll('.category');
+                categories.forEach(category => {
+                    if (selectedValue === 'all' || category.id === `category${selectedValue}`) {
+                        category.classList.add('active');
+                    } else {
+                        category.classList.remove('active');
+                    }
+                });
+                // Scroll to the selected category
+                if (selectedValue !== 'all') {
+                    document.getElementById(`category${selectedValue}`).scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+
+            function submitVoting() {
+                alert('Votação enviada com sucesso! Obrigado por participar.');
+                // Aqui você pode adicionar a lógica para enviar os dados da votação
+            }
+
+            function submitRequest() {
+                const companyName = document.getElementById("company-name").value;
+                const category = document.getElementById("category").value;
+                const whatsappNumber = "553484198022"; // Substitua pelo seu número do WhatsApp
+
+                if (companyName && category) {
+                    const message = `Solicitação de Empresa:%0ANome: ${encodeURIComponent(companyName)}%0ACategoria: ${encodeURIComponent(category)}`;
+                    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
+                    window.open(whatsappURL, '_blank');
+                } else {
+                    alert("Por favor, preencha todos os campos.");
+                }
+            }
+
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) {
+                    e.preventDefault();
+                }
+            });
+        </script>
+    </body>
+</html>
